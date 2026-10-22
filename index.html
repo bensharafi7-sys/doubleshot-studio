@@ -1,0 +1,366 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>DOUBLE SHOT: הסטודיו</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{height:100%;background:#120804;font-family:Rubik,"Heebo",Arial,sans-serif;color:#3a1d0e;overflow:hidden}
+#app{position:relative;width:100%;max-width:calc(100vh*9/16);height:100%;margin:0 auto;overflow:hidden;background:#2a1408}
+.bg{position:absolute;inset:0;transition:background 1s}
+.bg.apt{background:radial-gradient(circle at 75% 18%,#ffd38a 0,#e8934a 30%,#8a4421 70%,#3b1a0b)}
+.bg.apt:before{content:"";position:absolute;top:12%;right:8%;width:28%;height:17%;border-radius:14px;background:linear-gradient(#ffe9a8,#ffa34d);border:8px solid #6b3416;box-shadow:0 0 70px #ffcf70}
+.bg.apt:after{content:"";position:absolute;bottom:0;left:0;right:0;height:34%;background:repeating-linear-gradient(90deg,#9b5a2e 0 18%,#8a4d25 18% 36%)}
+.bg.studio{background:radial-gradient(circle at 50% 15%,#ff9a4a 0,#7a2f6a 40%,#1d0a2e 80%)}
+.bg.studio:before{content:"DOUBLE SHOT";position:absolute;top:10%;width:100%;text-align:center;font:900 9vmin Rubik;color:#ffe0b0;text-shadow:0 0 12px #ff8a2a,0 0 40px #ff5a00;direction:ltr;opacity:.6}
+.bg.studio:after{content:"";position:absolute;bottom:0;left:0;right:0;height:34%;background:linear-gradient(#2a1238,#120618);box-shadow:inset 0 10px 40px rgba(255,140,60,.3)}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:12px 14px 18px;opacity:0;pointer-events:none;transform:scale(1.04);transition:opacity .35s,transform .35s}
+.screen.on{opacity:1;pointer-events:auto;transform:none}
+.hud{display:flex;gap:6px;width:100%;z-index:5}
+.pill{flex:1;background:linear-gradient(#fff6e3,#ffd99a);border-radius:18px;padding:5px 4px;font-weight:900;font-size:15px;text-align:center;box-shadow:0 3px 0 #b86a1e,0 6px 14px rgba(0,0,0,.35);border:2px solid #fff;white-space:nowrap}
+.pill small{display:block;font-size:10px;color:#9a5a20}
+.pill.bump{animation:bump .5s}
+@keyframes bump{50%{transform:scale(1.25)}}
+.btn{border:3px solid rgba(255,255,255,.6);border-radius:40px;font:900 26px Rubik;color:#fff;padding:14px 20px;width:100%;cursor:pointer;text-shadow:0 2px 0 rgba(0,0,0,.25);transition:transform .1s}
+.btn:active{transform:scale(.95) translateY(3px)}
+.btn:disabled{filter:grayscale(1) brightness(.7)}
+.green{background:linear-gradient(#7ee05a,#2fa83a);box-shadow:0 6px 0 #1d6e24,0 0 30px rgba(120,255,100,.4)}
+.orange{background:linear-gradient(#ffb347,#ff6a1a);box-shadow:0 6px 0 #a3400a,0 0 30px rgba(255,150,50,.5)}
+.dark{background:linear-gradient(#444,#111);box-shadow:0 6px 0 #000,0 0 20px rgba(255,40,100,.5)}
+.small{font-size:16px;padding:9px 12px;width:auto}
+.spacer{flex:1}
+/* title */
+#title{justify-content:center;background:radial-gradient(circle at 50% 30%,#ff9a3a,#7a2a10 60%,#1a0804)}
+#title img{width:100%;border-radius:24px;box-shadow:0 0 50px #ffb050,0 20px 40px #000;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.logo{font:900 46px Rubik;color:#ffe45a;text-shadow:0 4px 0 #c0360a,0 0 30px #ffb020;direction:ltr;margin-top:22px;text-align:center;line-height:1}
+.logo2{font:900 34px Rubik;color:#fff;text-shadow:0 3px 0 #8a3a0a;margin-bottom:24px}
+/* guide bubble */
+.guide{display:flex;align-items:flex-end;gap:8px;width:100%;margin-top:8px;z-index:6;animation:pop .4s}
+.guide img{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:50% 32%;border:3px solid #fff;box-shadow:0 0 16px #ffb050;flex:none}
+.guide .say{background:#fff;border-radius:18px 18px 18px 4px;padding:9px 12px;font-weight:700;font-size:15px;box-shadow:0 4px 12px rgba(0,0,0,.3);line-height:1.3}
+.guide .say b{color:#d0500a}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.05)}}
+/* client */
+.client{width:62%;aspect-ratio:3/4;margin-top:10px;border-radius:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid #fff;box-shadow:0 0 40px rgba(255,200,100,.6),0 14px 30px rgba(0,0,0,.5);position:relative;animation:walkin .7s cubic-bezier(.3,1.5,.5,1)}
+.client .em{font-size:110px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
+.client .nm{font-weight:900;font-size:20px;color:#fff;text-shadow:0 2px 4px #000;margin-top:4px}
+.client .ph{position:absolute;top:8px;left:10px;font-size:9px;color:#fff;opacity:.6;direction:ltr}
+@keyframes walkin{0%{transform:translateX(-120%) rotate(-10deg)}}
+.bubble{background:#fff;border-radius:22px;padding:12px 16px;font-size:19px;font-weight:900;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.35);margin-top:-10px;z-index:3;animation:pop .5s .4s both}
+.brief{width:100%;background:linear-gradient(#fffaf0,#ffe8c2);border-radius:22px;padding:12px 14px;box-shadow:0 10px 24px rgba(0,0,0,.45);border:3px solid #fff;margin:10px 0}
+.brief h3{font-size:19px}.brief p{font-size:14px;color:#8a4a1a;margin-top:2px}
+.row{display:flex;gap:8px;margin-top:8px}.tag{flex:1;border-radius:14px;padding:6px;font-size:15px;font-weight:900;text-align:center}
+/* pick */
+#pick{background:radial-gradient(circle at 50% 40%,#7a2f6a 0,#3a1240 50%,#14061a)}
+.h2{font:900 22px Rubik;color:#fff;text-shadow:0 3px 0 #8a3a0a;margin:8px 0}
+.slots{display:flex;gap:8px;width:100%}
+.slot{flex:1;aspect-ratio:3/4.2;border-radius:18px;border:3px dashed rgba(255,220,150,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ffe0a0;font-size:16px;font-weight:900;background:rgba(255,255,255,.06);position:relative}
+.slot .q{font-size:42px}
+.card{border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:900;text-align:center;border:3px solid #fff;box-shadow:0 8px 18px rgba(0,0,0,.5);text-shadow:0 2px 0 rgba(0,0,0,.3);cursor:pointer;transition:transform .25s,box-shadow .25s,opacity .25s}
+.card .e{font-size:40px;text-shadow:none}.card small{font-size:10px;opacity:.9}
+.slot .card{position:absolute;inset:-3px;font-size:16px;animation:pop .35s;box-shadow:0 0 26px #ffd060}
+.meter{width:100%;height:30px;border-radius:15px;background:#2a0c2e;border:3px solid #ffcf70;overflow:hidden;position:relative;margin-top:12px}
+.meter i{position:absolute;top:0;bottom:0;right:0;width:0;background:linear-gradient(270deg,#ffe04a,#ff6a1a,#ff2a8a);box-shadow:0 0 20px #ff9a3a;transition:width .4s}
+.meter span{position:absolute;inset:0;text-align:center;line-height:24px;color:#fff;font-weight:900;font-size:14px}
+.combo{font:italic 900 48px Rubik;color:#ffe45a;text-shadow:0 4px 0 #c0360a,0 0 30px #ffb020;direction:ltr;height:58px;opacity:0;transition:opacity .3s}
+.combo.on{opacity:1;animation:pulse .8s infinite}
+@keyframes pulse{50%{transform:scale(1.1)}}
+.hand{position:relative;width:100%;height:190px;margin-top:4px}
+.hand .card{position:absolute;width:25%;height:160px;font-size:15px;bottom:0}
+.hand .card.used{opacity:.25;transform:translateY(30px) scale(.85)!important;pointer-events:none}
+.hand .card:hover{z-index:9}
+.c-style{background:linear-gradient(#ffcf4a,#e0801a)}.c-music{background:linear-gradient(#ff7ab0,#b02a6a)}.c-twist{background:linear-gradient(#7aff8a,#1a9a4a)}
+/* result */
+#result{background:radial-gradient(circle at 50% 30%,#ffe08a 0,#ff9a3a 35%,#a2401a 70%,#3b1508)}
+.rays{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 25%,rgba(255,255,255,.12) 0 8deg,transparent 8deg 18deg);animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tv{width:100%;aspect-ratio:4/3;border-radius:24px;background:#1a0c06;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 40px #ffd070;margin-top:8px;position:relative;z-index:2}
+.scr{width:100%;height:100%;border-radius:14px;position:relative;overflow:hidden}
+.scr .lay{position:absolute;filter:drop-shadow(0 6px 8px rgba(0,0,0,.4))}
+.scr .cap{position:absolute;bottom:8px;left:6px;right:6px;text-align:center;font-weight:900;font-size:17px;color:#fff;background:rgba(0,0,0,.55);border-radius:10px;padding:4px;opacity:0;animation:fadein .5s 2.2s forwards}
+.rec{position:absolute;top:8px;left:8px;background:#e00;color:#fff;font-size:12px;font-weight:900;padding:2px 8px;border-radius:6px;direction:ltr;animation:blink 1s infinite;z-index:3}
+@keyframes blink{50%{opacity:.4}}
+@keyframes fadein{to{opacity:1}}
+@keyframes zoomin{0%{transform:scale(0) rotate(-30deg)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes flyx{0%{transform:translateX(-160%)}100%{transform:translateX(0)}}
+@keyframes bob{50%{transform:translateY(-12px)}}
+@keyframes notes{0%{transform:translateY(40px);opacity:0}30%{opacity:1}100%{transform:translateY(-120px);opacity:0}}
+@keyframes shake{25%{transform:translate(-4px,2px)}75%{transform:translate(4px,-2px)}}
+@keyframes boom{0%{transform:scale(0);opacity:1}100%{transform:scale(3);opacity:0}}
+.react{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;z-index:2;opacity:0;transition:opacity .4s}
+.react.on{opacity:1}
+.react .face{font-size:58px;animation:bob 1s infinite}
+.react .say{background:#fff;border-radius:18px;padding:10px;font-weight:900;font-size:17px;flex:1}
+.rewards{display:flex;gap:8px;width:100%;margin-top:8px;z-index:2}
+.rw{flex:1;background:#fff8e8;border-radius:18px;padding:8px;font-size:24px;font-weight:900;text-align:center;box-shadow:0 4px 0 #b86a1e;direction:ltr;animation:pop .5s both}
+.newc{z-index:3;background:linear-gradient(#ff4ab0,#8a1aff);color:#fff;font-weight:900;font-size:19px;padding:7px 18px;border-radius:24px;border:3px solid #fff;box-shadow:0 0 30px #ff4ab0;margin-top:8px;transform:rotate(-3deg);animation:pop .6s both}
+.btnrow{display:flex;gap:10px;width:100%;z-index:2}
+/* collection */
+#coll{background:linear-gradient(#2a1240,#120618)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;overflow:auto;padding:4px}
+.cc{border-radius:16px;padding:10px;background:linear-gradient(#ffcf4a,#e0801a);color:#fff;font-weight:900;text-align:center;border:2px solid #fff;font-size:14px}
+.cc .e{font-size:28px}
+.cc.lock{background:#2a1a34;border-color:#4a3a5a;color:#6a5a7a}
+.cc.lock .e{filter:brightness(0) opacity(.4)}
+/* end */
+#endS{background:#000;justify-content:center;color:#fff;text-align:center}
+.env{font-size:120px;animation:slide 1.5s cubic-bezier(.2,1.4,.5,1) both}
+@keyframes slide{0%{transform:translateY(300px) rotate(30deg)}}
+.letter{background:#111;border:2px solid #c00;border-radius:12px;padding:16px;font-size:18px;line-height:1.5;margin:14px 0;box-shadow:0 0 40px rgba(200,0,0,.4);opacity:0;animation:fadein 1s 1.6s forwards}
+.cont{font:900 36px Rubik;color:#ff4a4a;text-shadow:0 0 20px #f00;opacity:0;animation:fadein 1s 3s forwards}
+#upg{justify-content:center;text-align:center}
+.toast{position:absolute;top:18%;left:10%;right:10%;text-align:center;font:900 26px Rubik;color:#fff;text-shadow:0 3px 0 #000;pointer-events:none;z-index:50;opacity:0}
+.toast.on{animation:toast 1.6s}
+@keyframes toast{20%,80%{opacity:1;transform:translateY(-20px)}}
+.confetti{position:absolute;top:-20px;font-size:22px;z-index:40;pointer-events:none;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+</style></head><body><div id="app">
+<div class="bg apt" id="bg"></div>
+
+<section class="screen on" id="title">
+  <img src="assets/duo.webp" alt="בן ואסף">
+  <div class="logo">DOUBLE SHOT</div><div class="logo2">הסטודיו</div>
+  <button class="btn green" id="startBtn">התחל ▶</button>
+  <div style="height:10px"></div>
+  <button class="btn dark small" id="collBtn0">🏆 אוסף קומבואים</button>
+  <button class="btn dark small" id="resetBtn" style="margin-top:8px;opacity:.7">↺ התחל מחדש</button>
+</section>
+
+<section class="screen" id="client">
+  <div class="hud" data-hud></div>
+  <div id="cGuide"></div>
+  <div class="client" id="cCard"></div>
+  <div class="bubble" id="cSay"></div>
+  <div class="spacer"></div>
+  <div class="brief" id="cBrief"></div>
+  <button class="btn green" id="acceptBtn">קבל עבודה ✔</button>
+</section>
+
+<section class="screen" id="pick">
+  <div class="hud" data-hud></div>
+  <div id="pGuide"></div>
+  <div class="h2">בחר 3 קלפים לקומבו 🎴</div>
+  <div class="slots" id="slots"></div>
+  <div class="meter"><i id="mFill"></i><span id="mTxt">⚡ 0%</span></div>
+  <div class="combo" id="comboTxt">COMBO!</div>
+  <div class="hand" id="hand"></div>
+  <div class="spacer"></div>
+  <div class="btnrow"><button class="btn dark small" id="redrawBtn">🔄 החלף יד</button><button class="btn orange" id="prodBtn" disabled>הפק! 🎥</button></div>
+</section>
+
+<section class="screen" id="result">
+  <div class="rays"></div>
+  <div class="hud" data-hud style="z-index:2"></div>
+  <div class="tv"><div class="scr" id="scr"></div></div>
+  <div id="rBadge"></div>
+  <div class="react" id="react"></div>
+  <div class="rewards" id="rewards"></div>
+  <div id="rGuide"></div>
+  <div class="spacer"></div>
+  <div class="btnrow" id="rBtns" style="visibility:hidden"><button class="btn dark small" id="shareBtn">🎵 שתף לטיקטוק</button><button class="btn green" id="nextBtn">לקוח הבא ⬅</button></div>
+</section>
+
+<section class="screen" id="coll">
+  <div class="h2" id="collTitle">🏆 אוסף קומבואים</div>
+  <div class="grid" id="grid"></div>
+  <div class="spacer"></div>
+  <button class="btn orange" id="collBack">חזרה</button>
+</section>
+
+<section class="screen" id="upg">
+  <div class="hud" data-hud></div>
+  <div class="spacer"></div>
+  <div class="logo" style="font-size:34px">⬆ STUDIO LEVEL 2</div>
+  <div class="h2" style="font-size:26px">ברוכים הבאים לסטודיו האמיתי! 🎉</div>
+  <div id="uGuide"></div>
+  <div class="spacer"></div>
+  <button class="btn green" id="upgNext">🚪 מישהו דפק בדלת...</button>
+</section>
+
+<section class="screen" id="endS">
+  <div class="env">✉️</div>
+  <div class="letter">"נחמד הסטודיו החדש שלכם.<br>תהנו ממנו... כל עוד הוא שלכם."<br><b style="color:#ff4a4a;direction:ltr;display:inline-block">— Single Shot</b></div>
+  <div class="cont">המשך יבוא...</div>
+  <div style="height:30px"></div>
+  <button class="btn dark small" id="collBtn1">🏆 אוסף קומבואים</button>
+  <button class="btn dark small" id="againBtn" style="margin-top:10px">↺ שחק שוב</button>
+</section>
+<div class="toast" id="toast"></div>
+</div>
+<script>
+"use strict";
+// ---------- DATA ----------
+const CARDS={
+ hollywood:{t:'style',n:'הוליווד',e:'🎬'}, anime:{t:'style',n:'אנימה',e:'🌸'}, western:{t:'style',n:'מערבון',e:'🤠'}, superhero:{t:'style',n:'גיבורי על',e:'🦸'}, noir:{t:'style',n:'פילם נואר',e:'🕵️'},
+ opera:{t:'music',n:'אופרה',e:'🎭'}, ttrap:{t:'music',n:'טראפ טורקי',e:'🪕'}, rap:{t:'music',n:'ראפ',e:'🎤'}, rock:{t:'music',n:'רוק',e:'🎸'}, mizrahi:{t:'music',n:'מזרחית',e:'🪘'},
+ aliens:{t:'twist',n:'חייזרים',e:'👽'}, rgranny:{t:'twist',n:'סבתא רוקרית',e:'👵'}, boom:{t:'twist',n:'פיצוץ ענק',e:'💥'}, cat:{t:'twist',n:'חתול מדבר',e:'🐱'}, slowmo:{t:'twist',n:'הילוך איטי',e:'⏱️'}
+};
+const TYPE_N={style:'סגנון',music:'מוזיקה',twist:'טוויסט'};
+// PLACEHOLDER client art: emoji portrait cards. Replace with ChatGPT client illustrations later.
+const CLIENTS=[
+ {id:'falafel',n:'אבו־חומוס, בעל פלאפלייה',e:'🧆',prod:'🧆',bg:'linear-gradient(#e9a24a,#9a4a12)',
+  say:'אני רוצה פרסומת הוליוודית לפלאפל שלי!',brief:'פרסומת 15 שניות, דרמטית, עם הרבה טחינה',budget:850,
+  pref:{hollywood:3,superhero:1,opera:2,mizrahi:2,aliens:2,boom:2,slowmo:1,anime:-1,rap:-1,cat:-1}},
+ {id:'granny',n:'סבתא רחל, בת 80',e:'👵',prod:'🎂',bg:'linear-gradient(#c07aff,#6a2ab0)',
+  say:'תעשו לי קליפ ראפ ליום הולדת 80! שהנכדים יתביישו!',brief:'קליפ יום הולדת, אנרגטי, עם הרבה סטייל',budget:700,
+  pref:{rap:3,ttrap:1,rock:2,rgranny:3,superhero:1,hollywood:1,cat:1,opera:-2,noir:-1,slowmo:-1}},
+ {id:'coach',n:'רוני, מאמן כושר',e:'🏋️',prod:'💪',bg:'linear-gradient(#5ad0ff,#1a6ac0)',
+  say:'אני רוצה להיראות כמו גיבור על! עם שרירים מהסרטים!',brief:'סרטון תדמית לחדר כושר, אפי ומלא כוח',budget:1000,
+  pref:{superhero:3,hollywood:2,rock:2,ttrap:1,rap:1,slowmo:3,boom:2,opera:-1,cat:-1,noir:-1}}
+];
+// 10 secret combos. client:null = any client.
+const COMBOS=[
+ {id:'c1',n:'פלאפל מחוץ לעולם',e:'🛸',client:'falafel',c:['opera','aliens'],bonus:400},
+ {id:'c2',n:'סבתא על הביט',e:'👵🎤',client:'granny',c:['rap','rgranny'],bonus:400},
+ {id:'c3',n:'קפטן כושר',e:'🦸💪',client:'coach',c:['superhero','slowmo'],bonus:400},
+ {id:'c4',n:'אנימה מאיסטנבול',e:'🌸🪕',client:null,c:['anime','ttrap','boom'],bonus:300},
+ {id:'c5',n:'החתול המזרחי מהמערב',e:'🤠🐱',client:null,c:['western','mizrahi','cat'],bonus:300},
+ {id:'c6',n:'הבלש בעל השפם',e:'🕵️🐱',client:null,c:['noir','opera','cat'],bonus:300},
+ {id:'c7',n:'בלוקבאסטר של קיץ',e:'🎬💥',client:null,c:['hollywood','rock','boom'],bonus:300},
+ {id:'c8',n:'סופר סבתא',e:'🦸👵',client:null,c:['superhero','rap','rgranny'],bonus:300},
+ {id:'c9',n:'דמעות הסאקורה',e:'🌸⏱️',client:null,c:['anime','opera','slowmo'],bonus:300},
+ {id:'c10',n:'קאובוי מהחלל',e:'🤠👽',client:null,c:['western','ttrap','aliens'],bonus:300}
+];
+const STYLE_BG={hollywood:'radial-gradient(circle at 50% 100%,#ffb347,#8a2a5a 55%,#1a0830)',anime:'linear-gradient(#ffb7d5,#8ad0ff)',western:'linear-gradient(#ffcf7a,#d9702a 60%,#7a3a10)',superhero:'radial-gradient(circle,#ffe04a,#e0301a 50%,#1a2a8a)',noir:'linear-gradient(#555,#111)'};
+const MUSIC_FX={opera:'🎶',ttrap:'🪕',rap:'🎤',rock:'🎸',mizrahi:'🪘'};
+// ---------- STATE ----------
+const KEY='doubleshot_studio_v1';
+const fresh=()=>({money:500,stars:1,level:1,day:1,ci:0,combos:[],tut:false,done:false});
+let S; try{S=Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){S=fresh()}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let hand=[],picked={style:null,music:null,twist:null},deck=[],redraws=1,last=null;
+const $=id=>document.getElementById(id);
+// ---------- AUDIO ----------
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC}
+function tone(f,d=.12,type='sine',v=.15,when=0,f2){const a=ac();if(!a)return;const t=a.currentTime+when,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d+.02)}
+function noise(d=.4,v=.2){const a=ac();if(!a)return;const b=a.createBuffer(1,a.sampleRate*d,a.sampleRate),c=b.getChannelData(0);for(let i=0;i<c.length;i++)c[i]=(Math.random()*2-1)*(1-i/c.length);const s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain();f.type='bandpass';f.frequency.setValueAtTime(400,a.currentTime);f.frequency.exponentialRampToValueAtTime(3000,a.currentTime+d);g.gain.value=v;s.buffer=b;s.connect(f).connect(g).connect(a.destination);s.start()}
+const SFX={blip:()=>tone(880,.08,'square',.06),card:()=>tone(520,.1,'triangle',.12,0,900),whoosh:()=>noise(.35,.25),
+ cheer:()=>{[523,659,784,1046].forEach((f,i)=>tone(f,.25,'triangle',.12,i*.09));noise(.9,.08)},
+ meh:()=>{tone(400,.2,'triangle',.1);tone(380,.3,'triangle',.1,.2)},boo:()=>{tone(300,.5,'sawtooth',.08,0,120)},
+ coin:()=>{tone(988,.08,'square',.07);tone(1318,.2,'square',.07,.08)},combo:()=>{[660,880,1100,1320,1760].forEach((f,i)=>tone(f,.15,'square',.06,i*.06))}};
+// ---------- UI HELPERS ----------
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));SFX.whoosh()}
+function hud(){const h=`<div class="pill" data-k="money"><small>כסף</small>₪ ${S.money.toLocaleString('en-US')}</div><div class="pill" data-k="stars"><small>מוניטין</small>${'⭐'.repeat(Math.min(5,S.stars))}${'☆'.repeat(Math.max(0,5-S.stars))}</div><div class="pill"><small>סטודיו</small>רמה ${S.level}</div><div class="pill"><small>יום</small>☀️ ${S.day}</div>`;document.querySelectorAll('[data-hud]').forEach(e=>e.innerHTML=h);$('bg').className='bg '+(S.level>1?'studio':'apt')}
+function bump(){document.querySelectorAll('.pill[data-k]').forEach(p=>{p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump')})}
+const IMG={ben:'assets/ben.webp',asaf:'assets/asaf.webp'};
+function guide(el,who,txt){$(el).innerHTML=txt?`<div class="guide"><img src="${IMG[who]}" alt="${who==='ben'?'בן':'אסף'}"><div class="say"><b>${who==='ben'?'בן':'אסף'}:</b> ${txt}</div></div>`:''}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.remove('on');void e.offsetWidth;e.classList.add('on')}
+function confetti(n=30){for(let i=0;i<n;i++){const c=document.createElement('div');c.className='confetti';c.textContent=['🎉','⭐','✨','💰','🧡'][i%5];c.style.left=Math.random()*100+'%';c.style.animationDelay=Math.random()*.8+'s';$('app').appendChild(c);setTimeout(()=>c.remove(),3500)}}
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+// ---------- FLOW ----------
+function startClient(){
+ if(S.ci>=CLIENTS.length){return S.level>1?showEnd():showUpgrade()}
+ const c=CLIENTS[S.ci];hud();
+ $('cCard').style.background=c.bg;
+ $('cCard').innerHTML=`<span class="ph">PLACEHOLDER ART</span><div class="em">${c.e}</div><div class="nm">${c.n}</div>`;
+ $('cCard').style.animation='none';void $('cCard').offsetWidth;$('cCard').style.animation='';
+ $('cSay').textContent=c.say;
+ $('cBrief').innerHTML=`<h3>📋 בריף: ${c.n.split(',')[0]}</h3><p>${c.brief}</p><div class="row"><div class="tag" style="background:#d8f5c4;color:#2a7a1a">💰 תקציב ₪${c.budget}</div><div class="tag" style="background:#ffd9d0;color:#b0301a">⏰ דדליין: ${3-S.ci%2} ימים</div></div>`;
+ const lines=[['ben','יאללה, הלקוח הראשון שלנו! תקשיב טוב מה הוא רוצה ☕'],['asaf','סבתא ראפרית? אני כבר מכין את המצלמה 📷'],['ben','זה הלקוח האחרון לפני שנעבור לסטודיו אמיתי!']];
+ guide('cGuide',...lines[S.ci]);show('client');
+}
+function dealHand(){
+ const c=CLIENTS[S.ci];
+ deck=shuffle(Object.keys(CARDS));
+ const byT=t=>deck.filter(k=>CARDS[k].t===t);
+ hand=['style','music','twist'].map(t=>byT(t)[0]);
+ // tutorial: first client guaranteed a secret combo is available
+ if(!S.tut&&S.ci===0)hand=['hollywood','opera','aliens'];
+ for(const k of deck){if(hand.length>=6)break;if(!hand.includes(k))hand.push(k)}
+ hand=shuffle(hand);picked={style:null,music:null,twist:null};renderPick();
+}
+function renderPick(){
+ $('slots').innerHTML=['style','music','twist'].map(t=>{const k=picked[t];return `<div class="slot" data-slot="${t}"><span class="q">❔</span>${TYPE_N[t]}${k?cardHTML(k,'slotc'):''}</div>`}).join('');
+ const n=hand.length;
+ $('hand').innerHTML=hand.map((k,i)=>{const used=Object.values(picked).includes(k);const mid=(n-1)/2,off=i-mid;
+  return cardHTML(k,'',`style="left:${37.5+off*13}%;transform:rotate(${off*4}deg) translateY(${Math.abs(off)*8}px);z-index:${i}" data-i="${i}"`,used)}).join('');
+ document.querySelectorAll('#hand .card').forEach(el=>el.onclick=()=>pickCard(hand[+el.dataset.i]));
+ document.querySelectorAll('.slot .card').forEach(el=>el.onclick=e=>{e.stopPropagation();picked[CARDS[el.dataset.k].t]=null;SFX.blip();renderPick()});
+ const sc=score(),full=Object.values(picked).every(Boolean);
+ const pct=Math.max(0,Math.min(100,Math.round(sc/8*100)));
+ $('mFill').style.width=pct+'%';$('mTxt').textContent='⚡ '+pct+'%';
+ $('comboTxt').classList.toggle('on',full&&(pct>=60||!!findCombo()));
+ $('prodBtn').disabled=!full;$('redrawBtn').disabled=redraws<1;
+}
+function cardHTML(k,cls,attr='',used){const c=CARDS[k];return `<div class="card c-${c.t} ${cls} ${used?'used':''}" data-k="${k}" ${attr}><small>${TYPE_N[c.t]}</small><span class="e">${c.e}</span>${c.n}</div>`}
+function pickCard(k){picked[CARDS[k].t]=k;SFX.card();renderPick();
+ if(!S.tut&&S.ci===0){const n=Object.values(picked).filter(Boolean).length;guide('pGuide',n<3?'asaf':'ben',n<3?`יופי! עוד ${3-n} — אחד מכל סוג. סגנון, מוזיקה, טוויסט 🎴`:'מושלם! עכשיו לחץ <b>הפק!</b> ונראה קסם 🎥')}}
+function score(){const p=CLIENTS[S.ci].pref;return Object.values(picked).filter(Boolean).reduce((s,k)=>s+(p[k]||0),0)}
+function findCombo(){const sel=Object.values(picked);if(sel.some(x=>!x))return null;const c=CLIENTS[S.ci].id;
+ return COMBOS.find(x=>(!x.client||x.client===c)&&x.c.every(k=>sel.includes(k)))}
+function caption(cl,p){const s=CARDS[p.style].n,m=CARDS[p.music].n,t=CARDS[p.twist].n;
+ const T=[`${cl.prod} בעולם שבו ${t} שולטים... רק ${s} יכול להציל אותנו`,`${s} + ${m} + ${t}. אף אחד לא ביקש. כולם צריכים.`,`"זה לא סתם ${cl.prod}, זה ${s}!" — בליווי ${m}`,`השנה: ${t}. הקיץ: ${s}. המוזיקה: ${m}. האוכל? ${cl.prod}`];
+ return T[(p.style.length+p.twist.length)%T.length]}
+function produce(){
+ const cl=CLIENTS[S.ci],p={...picked},sc=score(),combo=findCombo();
+ const tier=combo||sc>=5?'wow':sc>=2?'ok':'bad';
+ const newC=combo&&!S.combos.includes(combo.id);
+ const earn=Math.round(cl.budget*(tier==='wow'?1:tier==='ok'?.6:.2))+(newC?combo.bonus:0);
+ const st=tier==='wow'?1:0;
+ last={cl,p,tier,combo,newC,earn,st,cap:combo?`✨ ${combo.n} ✨`:caption(cl,p)};
+ // scene
+ const tw=CARDS[p.twist].e,mu=MUSIC_FX[p.music];
+ let twAnim={aliens:'flyx 1.2s .6s both, bob 1.5s 1.8s infinite',rgranny:'zoomin .6s .8s both, shake .3s 1.4s infinite',boom:'boom 1s .8s infinite',cat:'zoomin .6s .8s both, bob .8s 1.4s infinite',slowmo:'zoomin 2s .5s both'}[p.twist];
+ $('scr').style.background=STYLE_BG[p.style];
+ $('scr').innerHTML=`<div class="rec">● REC 0:05</div>
+  <div class="lay" style="font-size:40px;top:10px;right:12px;animation:zoomin .5s both">${CARDS[p.style].e}</div>
+  <div class="lay" style="font-size:90px;left:50%;top:38%;margin-left:-50px;animation:zoomin .7s .2s both${p.twist==='boom'?', shake .2s 1s 8':''}">${cl.prod}</div>
+  <div class="lay" style="font-size:64px;top:8%;left:12%;animation:${twAnim}">${tw}</div>
+  ${[0,1,2,3].map(i=>`<div class="lay" style="font-size:28px;bottom:20%;left:${10+i*24}%;animation:notes 2s ${i*.4}s infinite">${mu}</div>`).join('')}
+  <div class="cap">${last.cap}</div>`;
+ $('react').classList.remove('on');$('rewards').innerHTML='';$('rBadge').innerHTML='';$('rGuide').innerHTML='';$('rBtns').style.visibility='hidden';
+ show('result');
+ setTimeout(()=>tone(220,.6,'sawtooth',.05,0,440),200);
+ [0,.5,1,1.5,2,2.5].forEach(d=>tone(p.music==='opera'?660:440+d*80,.18,'triangle',.06,d+.3));
+ setTimeout(()=>reveal(),3600);
+}
+function reveal(){
+ const {cl,tier,combo,newC,earn,st}=last;
+ const R={wow:['🤩','וואלה גאון! זה הדבר הכי טוב שראיתי בחיים!'],ok:['🙂','נחמד... לא מה שדמיינתי, אבל אני אשלם.'],bad:['😡','מה זה הדבר הזה?! הבן דוד שלי עושה יותר טוב!']}[tier];
+ $('react').innerHTML=`<div class="face">${R[0]}</div><div class="say">${cl.e} ${R[1]}</div>`;$('react').classList.add('on');
+ SFX[tier==='wow'?'cheer':tier==='ok'?'meh':'boo']();
+ S.money+=earn;S.stars=Math.min(5,S.stars+st);
+ if(newC)S.combos.push(combo.id);
+ S.ci++;S.day++;S.tut=true;save();
+ setTimeout(()=>{$('rewards').innerHTML=`<div class="rw" style="color:#1a8a2a">+₪${earn} 💰</div><div class="rw" style="color:#d08a00;animation-delay:.15s">${st?'+1 ⭐':'+0 ⭐'}</div>`;SFX.coin();hud();bump();
+  if(newC){$('rBadge').innerHTML=`<div class="newc">✨ NEW COMBO ${S.combos.length}/10 — ${combo.n}</div>`;SFX.combo();confetti(40)}else if(tier==='wow')confetti(20);
+  const g=S.ci===1?['asaf','ככה עושים את זה! עכשיו אפשר לשתף לטיקטוק או להמשיך 💪']:tier==='bad'?['ben','אוקיי... נלמד מזה. בפעם הבאה תקשיב לבריף 😅']:null;
+  if(g)guide('rGuide',...g);
+  $('rBtns').style.visibility='visible'},700);
+}
+function showUpgrade(){S.level=2;save();hud();toast('🏗️ שדרוג סטודיו!');confetti(40);SFX.combo();guide('uGuide','ben','מהדירה הקטנה לסטודיו עם שלט ניאון! אסף, תביא את הקפה ☕');show('upg')}
+function showEnd(){S.done=true;save();show('endS');setTimeout(()=>{tone(110,1.5,'sawtooth',.06,0,55)},300)}
+function showColl(back){$('collTitle').textContent=`🏆 אוסף קומבואים ${S.combos.length}/10`;
+ $('grid').innerHTML=COMBOS.map(c=>{const has=S.combos.includes(c.id);return `<div class="cc ${has?'':'lock'}"><div class="e">${c.e}</div>${has?c.n:'??? סודי'}${has?`<div style="font-size:11px;opacity:.85">${c.c.map(k=>CARDS[k].n).join(' + ')}</div>`:''}</div>`}).join('');
+ $('collBack').onclick=()=>{SFX.blip();show(back)};show('coll')}
+// ---------- SHARE (canvas snapshot + copy text, no posting) ----------
+async function share(){
+ const {cl,p,cap}=last,cv=document.createElement('canvas');cv.width=1080;cv.height=1920;const x=cv.getContext('2d');
+ const g=x.createLinearGradient(0,0,0,1920);g.addColorStop(0,'#ff9a3a');g.addColorStop(1,'#3b1508');x.fillStyle=g;x.fillRect(0,0,1080,1920);
+ x.fillStyle='#1a0c06';x.beginPath();x.roundRect(60,300,960,760,50);x.fill();
+ const g2=x.createRadialGradient(540,1000,50,540,700,600);g2.addColorStop(0,'#ff7a3a');g2.addColorStop(1,'#2a0c4a');x.fillStyle=g2;x.beginPath();x.roundRect(90,330,900,700,30);x.fill();
+ x.textAlign='center';x.textBaseline='middle';x.font='260px sans-serif';x.fillText(cl.prod,540,700);x.font='160px sans-serif';x.fillText(CARDS[p.twist].e,280,480);x.fillText(CARDS[p.style].e,820,480);x.fillText(MUSIC_FX[p.music],800,900);
+ x.direction='rtl';x.fillStyle='#fff';x.font='900 56px Rubik, sans-serif';wrap(x,cap,540,1180,900,70);
+ x.font='900 90px Rubik, sans-serif';x.fillStyle='#ffe45a';x.direction='ltr';x.fillText('DOUBLE SHOT',540,150);x.direction='rtl';x.fillStyle='#fff';x.font='900 60px Rubik, sans-serif';x.fillText('הסטודיו',540,240);
+ x.font='700 44px Rubik, sans-serif';x.fillText(`${CARDS[p.style].n} • ${CARDS[p.music].n} • ${CARDS[p.twist].n}`,540,1500);
+ const txt=`הפקתי פרסומת "${cap.replace(/✨/g,'').trim()}" ל${cl.n} ב-DOUBLE SHOT: הסטודיו 🎬 #DoubleShot`;
+ let copied=false;try{await navigator.clipboard.writeText(txt);copied=true}catch(e){}
+ const a=document.createElement('a');a.download='doubleshot-result.png';a.href=cv.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();
+ window.__lastShare={txt,copied};toast(copied?'📋 הטקסט הועתק + תמונה ירדה':'🖼️ התמונה ירדה');SFX.coin();
+}
+function wrap(x,t,cx,y,mw,lh){const w=t.split(' ');let line='',ys=y;for(const s of w){const tl=line?line+' '+s:s;if(x.measureText(tl).width>mw&&line){x.fillText(line,cx,ys);line=s;ys+=lh}else line=tl}x.fillText(line,cx,ys)}
+// ---------- BINDINGS ----------
+$('startBtn').onclick=()=>{ac();SFX.blip();if(S.done){S=fresh();save()}S.ci>=CLIENTS.length?(S.level>1?showEnd():showUpgrade()):startClient()};
+$('resetBtn').onclick=()=>{S=fresh();save();toast('↺ התקדמות אופסה');SFX.blip()};
+$('collBtn0').onclick=()=>{SFX.blip();showColl('title')};$('collBtn1').onclick=()=>{SFX.blip();showColl('endS')};
+$('acceptBtn').onclick=()=>{SFX.coin();redraws=1;dealHand();guide('pGuide',...(!S.tut&&S.ci===0?['asaf','בחר קלף מכל סוג. רמז: לקוחות אוהבים הפתעות... 👽']:['ben','תזכור מה הלקוח ביקש 😉']));show('pick')};
+$('redrawBtn').onclick=()=>{if(redraws<1)return;redraws--;SFX.whoosh();dealHand()};
+$('prodBtn').onclick=()=>{if(!$('prodBtn').disabled)produce()};
+$('nextBtn').onclick=()=>{SFX.blip();startClient()};
+$('shareBtn').onclick=share;
+$('upgNext').onclick=()=>{SFX.blip();showEnd()};
+$('againBtn').onclick=()=>{const keep=S.combos;S=fresh();S.combos=keep;S.tut=true;save();hud();startClient()};
+hud();
+</script></body></html>
